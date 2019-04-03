@@ -35,10 +35,14 @@ public class ExampleMod
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        logger = event.getModLog();
+
         Item.ToolMaterial TOOL_MATERIAL_CHEAP = EnumHelper.addToolMaterial("digga_cheap", 0, 3, 1.0f, 6.0f, 220);
         digga_cheap = new Digga(TOOL_MATERIAL_CHEAP);
         digga_cheap.setRegistryName("digga_cheap");
         digga_cheap.setUnlocalizedName("Digga Lite");
+        digga_cheap.logger = logger;
+        digga_cheap.setRegistryName(new ResourceLocation("examplemod", "digga_cheap"));
         //digga_cheap.setRegistryName(new ResourceLocation("examplemod","digga_cheap"));
 
 
@@ -52,7 +56,7 @@ public class ExampleMod
         digga_expensive.setRegistryName("digga_expensive");
         digga_expensive.setUnlocalizedName("Digga Premium");
 
-        logger = event.getModLog();
+
 
         ForgeRegistries.ITEMS.registerAll(digga_cheap, digga_economy, digga_expensive);
     }
