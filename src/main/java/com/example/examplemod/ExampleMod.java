@@ -1,5 +1,7 @@
 package com.example.examplemod;
 
+import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -10,6 +12,7 @@ import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -39,12 +42,17 @@ public class ExampleMod
 
         Item.ToolMaterial TOOL_MATERIAL_CHEAP = EnumHelper.addToolMaterial("digga_cheap", 0, 3, 1.0f, 6.0f, 220);
         digga_cheap = new Digga(TOOL_MATERIAL_CHEAP);
-        digga_cheap.setRegistryName("digga_cheap");
+        ResourceLocation resource = new ResourceLocation("examplemod","digga_cheap");
+        digga_cheap.setRegistryName(resource);
         digga_cheap.setUnlocalizedName("Digga Lite");
         digga_cheap.logger = logger;
-        digga_cheap.setRegistryName(new ResourceLocation("examplemod", "digga_cheap"));
-        //digga_cheap.setRegistryName(new ResourceLocation("examplemod","digga_cheap"));
 
+        ModelResourceLocation modelLocation = new ModelResourceLocation(resource, "normal");
+        //digga_cheap.setRegistryName(new ResourceLocation("examplemod","digga_cheap"));
+        ModelLoader.setCustomModelResourceLocation(digga_cheap, 0, modelLocation);
+        ModelBakery.registerItemVariants(digga_cheap, resource);
+
+        //ModelLoader.registerItemVariants();
 
         Item.ToolMaterial TOOL_MATERIAL_ECON = EnumHelper.addToolMaterial("digga_econ", 1, 131, 4.0f, 6.0f, 220);
         digga_economy = new Digga(TOOL_MATERIAL_ECON);
@@ -74,26 +82,24 @@ public class ExampleMod
         //ForgeRegistries.RECIPES.registerAll(DIGGA_ECONOMY);
         GameRegistry.addShapedRecipe(new ResourceLocation("examplemod:digga_cheap"), new ResourceLocation(""), new ItemStack(digga_cheap), new Object[]{
                 "III",
-                " F ",
-                " F ",
-                'I', Items.IRON_INGOT,
-                'F', Items.FEATHER     // note carefully - 'I' not "I" !
+                " I ",
+                " I ",
+                'I', Items.IRON_INGOT
         });
 
         GameRegistry.addShapedRecipe(new ResourceLocation("examplemod:digga_econ"), new ResourceLocation(""), new ItemStack(digga_economy), new Object[]{
-                "DDD",
-                " F ",
-                " F ",
-                'D', Items.DIAMOND,
-                'F', Items.FEATHER     // note carefully - 'I' not "I" !
-        });
-
-        GameRegistry.addShapedRecipe(new ResourceLocation("examplemod:digga_expensive"), new ResourceLocation(""), new ItemStack(digga_expensive), new Object[]{
                 "DDD",
                 " I ",
                 " I ",
                 'D', Items.DIAMOND,
                 'I', Items.IRON_INGOT     // note carefully - 'I' not "I" !
+        });
+
+        GameRegistry.addShapedRecipe(new ResourceLocation("examplemod:digga_expensive"), new ResourceLocation(""), new ItemStack(digga_expensive), new Object[]{
+                "DDD",
+                " D ",
+                " D ",
+                'D', Items.DIAMOND
         });
     }
 

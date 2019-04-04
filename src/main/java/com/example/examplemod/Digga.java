@@ -38,9 +38,11 @@ public class Digga extends ItemPickaxe {
         worldIn.getBlockState(pos);
         //worldIn.destroyBlock(pos, true);
         ArrayList<ItemStack> drops = this.dig(worldIn, pos, facing);
-        this.pickup(player, drops);
+        this.pickup(drops, player);
         //player.inventory
         //player.addItemStackToInventory();
+        ItemStack itemstack = player.inventory.getCurrentItem();
+        itemstack.damageItem(8, player);
         return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
     }
 
@@ -49,8 +51,12 @@ public class Digga extends ItemPickaxe {
         Block currentBlock;
         ArrayList<ItemStack> drops = new ArrayList<>();
         boolean bedrock = false;
+        facing = EnumFacing.getHorizontal(facing.getHorizontalIndex());
 
-        // need an pushable list
+        if(this.logger != null){
+            this.logger.info(facing.getName());
+        }
+
 
 
         int counter = 0;
@@ -65,10 +71,13 @@ public class Digga extends ItemPickaxe {
             }
 
 
+
             currentPos = currentPos.down();
+            currentPos.offset(facing);
+            //currentPos = currentPos.north();
             if(currentPos.getY() < 1) bedrock = true;
             if(this.logger != null){
-                this.logger.info(currentPos.getY());
+                logger.info(currentPos.getY());
             }
             if(++counter > 256) bedrock = true;
         }
@@ -76,10 +85,24 @@ public class Digga extends ItemPickaxe {
         return drops;
     }
 
-    private void pickup(EntityPlayer player, ArrayList<ItemStack> items){
+    private void pickup(ArrayList<ItemStack> items, EntityPlayer player){
         for(int i = items.size()-1; i >= 0; i--){
             ItemStack item = items.get(i);
-            player.addItemStackToInventory(item);
+            String name = item.getDisplayName();
+            boolean sucess = false;
+
+
+
+            if(!(name.equals("Air") || name.equals("Cobblestone"))){
+                sucess = player.inventory.addItemStackToInventory(item);
+            }
+
+            if(!sucess){
+                player.dropItem(item, false);
+            }
+            if(this.logger != null){
+                logger.info(name);
+            }
         }
     }
 
@@ -91,7 +114,23 @@ public class Digga extends ItemPickaxe {
         //_XCXX_
         //__XX__
 
-        int[][] shape = {
+        //XXX
+        //XCX
+        //XXX
+
+        int[][] shape= {
+                {0, 0},
+                {0, -0},
+                {0, 1},
+                {1, 0},
+                {1, -1},
+                {1, 1},
+                {-1, 0},
+                {-1, -1},
+                {-1, 1}
+        };
+
+        /* = {
                 {2, 0},
                 {2, 1},
                 {1, -1},
@@ -104,8 +143,7 @@ public class Digga extends ItemPickaxe {
                 {0, 2},
                 {-1, 0},
                 {-1, 1}
-        };
-
+        };*/
 
         for(int i = 0; i < shape.length; i++) {
             int[] coords = shape[i];
