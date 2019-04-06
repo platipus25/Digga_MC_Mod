@@ -1,7 +1,7 @@
 {
   "parent": "builtin/generated",
   "textures": {
-    "layer0": "examplemod:digga_econ"
+    "layer0": "examplemod:item/digga_econ"
   },
   "display": {
     "thirdperson_righthand": {

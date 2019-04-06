@@ -3,6 +3,7 @@ package com.example.examplemod;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -14,6 +15,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Logger;
 
@@ -35,12 +37,9 @@ public class Digga extends ItemPickaxe {
 
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        worldIn.getBlockState(pos);
-        //worldIn.destroyBlock(pos, true);
-        ArrayList<ItemStack> drops = this.dig(worldIn, pos, facing);
+        EnumFacing horizontalFacing = this.horizontalFacingFromVector(player.getForward());
+        ArrayList<ItemStack> drops = this.dig(worldIn, pos, horizontalFacing);
         this.pickup(drops, player);
-        //player.inventory
-        //player.addItemStackToInventory();
         ItemStack itemstack = player.inventory.getCurrentItem();
         itemstack.damageItem(8, player);
         return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
@@ -51,10 +50,9 @@ public class Digga extends ItemPickaxe {
         Block currentBlock;
         ArrayList<ItemStack> drops = new ArrayList<>();
         boolean bedrock = false;
-        facing = EnumFacing.getHorizontal(facing.getHorizontalIndex());
 
         if(this.logger != null){
-            this.logger.info(facing.getName());
+            this.logger.info(facing.getHorizontalIndex());
         }
 
 
@@ -73,11 +71,11 @@ public class Digga extends ItemPickaxe {
 
 
             currentPos = currentPos.down();
-            currentPos.offset(facing);
+            currentPos = currentPos.offset(facing);
             //currentPos = currentPos.north();
             if(currentPos.getY() < 1) bedrock = true;
             if(this.logger != null){
-                logger.info(currentPos.getY());
+                //logger.info(currentPos.getY());
             }
             if(++counter > 256) bedrock = true;
         }
@@ -101,7 +99,7 @@ public class Digga extends ItemPickaxe {
                 player.dropItem(item, false);
             }
             if(this.logger != null){
-                logger.info(name);
+                //logger.info(name);
             }
         }
     }
@@ -113,23 +111,6 @@ public class Digga extends ItemPickaxe {
         //_XXXX_
         //_XCXX_
         //__XX__
-
-        //XXX
-        //XCX
-        //XXX
-
-        int[][] shape= {
-                {0, 0},
-                {0, -0},
-                {0, 1},
-                {1, 0},
-                {1, -1},
-                {1, 1},
-                {-1, 0},
-                {-1, -1},
-                {-1, 1}
-        };
-
         /* = {
                 {2, 0},
                 {2, 1},
@@ -145,11 +126,55 @@ public class Digga extends ItemPickaxe {
                 {-1, 1}
         };*/
 
+        //XXX
+        //XCX
+        //XXX
+        /* = {
+                {0, 0},
+                {0, -1},
+                {0, 1},
+                {1, 0},
+                {1, -1},
+                {1, 1},
+                {-1, 0},
+                {-1, -1},
+                {-1, 1}
+        };
+         */
+
+        //___X___
+        //__XXX__
+        //_XXCXX_
+        //__XXX__
+        //___X___
+
+        int[][] shape = {
+            {0, 0},
+            {0, -1},
+            {0, 1},
+            {1, 0},
+            {1, -1},
+            {1, 1},
+            {-1, 0},
+            {-1, -1},
+            {-1, 1},
+            {2, 0},
+            {-2, 0},
+            {0, 2},
+            {0, -2}
+        };
+
+
+
         for(int i = 0; i < shape.length; i++) {
             int[] coords = shape[i];
             list.add(center.add(coords[0], 0, coords[1]));
         }
 
         return list;
+    }
+
+    EnumFacing horizontalFacingFromVector(Vec3d vector){
+        return EnumFacing.getFacingFromVector((float)(vector.x), 0f, (float)(vector.z));
     }
 }

@@ -13,6 +13,7 @@ import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -47,10 +48,11 @@ public class ExampleMod
         digga_cheap.setUnlocalizedName("Digga Lite");
         digga_cheap.logger = logger;
 
-        ModelResourceLocation modelLocation = new ModelResourceLocation(resource, "normal");
+        ModelResourceLocation modelLocation = new ModelResourceLocation(resource, "textures_are_hard");
         //digga_cheap.setRegistryName(new ResourceLocation("examplemod","digga_cheap"));
-        ModelLoader.setCustomModelResourceLocation(digga_cheap, 0, modelLocation);
-        ModelBakery.registerItemVariants(digga_cheap, resource);
+        //ModelLoader.setCustomModelResourceLocation(digga_cheap, 0, modelLocation);
+        //ModelBakery.registerItemVariants(digga_cheap, resource);
+
 
         //ModelLoader.registerItemVariants();
 
