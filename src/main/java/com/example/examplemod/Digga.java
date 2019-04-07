@@ -177,4 +177,20 @@ public class Digga extends ItemPickaxe {
     EnumFacing horizontalFacingFromVector(Vec3d vector){
         return EnumFacing.getFacingFromVector((float)(vector.x), 0f, (float)(vector.z));
     }
+
+    enum Direction {
+        NORTH,
+        EAST,
+        SOUTH,
+        WEST,
+        NORTHEAST,
+        NORTHWEST,
+        SOUTHEAST,
+        SOUTHWEST;
+        public static Direction fromVector(Vec3d vectorIn){
+            Vec3d vectorHorrizontal = new Vec3d(vectorIn.x, 0, vectorIn.z);
+            //vectorHorrizontal
+            return Direction.NORTH;
+        }
+    }
 }
