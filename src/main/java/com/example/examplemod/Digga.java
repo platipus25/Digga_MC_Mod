@@ -188,8 +188,8 @@ public class Digga extends ItemPickaxe {
         SOUTHEAST,
         SOUTHWEST;
         public static Direction fromVector(Vec3d vectorIn){
-            Vec3d vectorHorrizontal = new Vec3d(vectorIn.x, 0, vectorIn.z);
-            //vectorHorrizontal
+            Vec3d vectorHorrizontal = new Vec3d(vectorIn.x, 0, vectorIn.z).normalize();
+            
             return Direction.NORTH;
         }
     }
